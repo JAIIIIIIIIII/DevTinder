@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
     },
     gender : {
         type : String,
+        default : "None",
         validate(val){
             if(!["M","F","O"].includes(val)){
                 throw new Error("Not a Vaild Gender!")
@@ -46,6 +47,10 @@ const userSchema = new mongoose.Schema({
     skills : {
         type : Array,
     },
+    about : {
+        type : String,
+        default : "Hello ,This field is about the user"
+    }
 },
 {
     timestamps : true,
