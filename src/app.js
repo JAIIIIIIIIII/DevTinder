@@ -7,12 +7,14 @@ const User = require("./models/user");
 const userAuth = require("./middlewares/auth");
 const authRouter = require("./routes/authRoute");
 const profileRouter = require("./routes/profileRoute");
+const connectionRouter = require("./routes/connectionRoute");
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/",authRouter);
 app.use("/",profileRouter);
+app.use("/",connectionRouter);
 dbConnect()
 .then(()=>{
     console.log("Server Connected");
