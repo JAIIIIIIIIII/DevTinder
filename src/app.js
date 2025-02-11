@@ -8,6 +8,7 @@ const userAuth = require("./middlewares/auth");
 const authRouter = require("./routes/authRoute");
 const profileRouter = require("./routes/profileRoute");
 const connectionRouter = require("./routes/connectionRoute");
+const userRoute = require("./routes/userscreen");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",connectionRouter);
+app.use("/",userRoute);
 dbConnect()
 .then(()=>{
     console.log("Server Connected");

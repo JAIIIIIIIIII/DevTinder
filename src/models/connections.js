@@ -4,15 +4,17 @@ const connectionRequestSchema = mongoose.Schema({
     sentFrom : {
         type : mongoose.Schema.Types.ObjectId,
         required :true,
+        ref:"User",
     },
     sentTo : {
         type : mongoose.Schema.Types.ObjectId,
         required :true,
+        ref:"User",
     },
     status :{
         type :String,
         enum :{
-            values :["intrest","pass","accept","deni"],
+            values :["intrest","pass","accept","reject"],
             message : `{VALUE} is not a valid status type!`
         }
     }
