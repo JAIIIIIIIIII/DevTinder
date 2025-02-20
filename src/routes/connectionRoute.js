@@ -58,7 +58,9 @@ connectionRouter.post("/connection/review/:status/:reqId", userAuth , async(req,
      const loggedInUser = req.user._id;
      const {status} = req.params;
      const {reqId} = req.params;
-
+     
+     //console.log(reqId);
+     
      const validStatus = ["accept","reject"];
      if(!validStatus.includes(status)){
       throw new Error("Not a valid Status!");
@@ -70,6 +72,9 @@ connectionRouter.post("/connection/review/:status/:reqId", userAuth , async(req,
       status : "intrest"
 
      })
+
+     //console.log(data);
+     
      if(!data){
       return res.status(404).send("No request found!");
      }

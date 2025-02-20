@@ -17,7 +17,8 @@ try{
     if(!user){
     throw new Error("User not found!");
     }
-    res.send(user);
+    
+    return res.json({data: user});
    }catch(err){
     res.status(400).send("Error: " + err.message);
 
