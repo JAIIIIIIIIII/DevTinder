@@ -11,6 +11,7 @@ const connectionRouter = require("./routes/connectionRoute");
 const userRoute = require("./routes/userscreen");
 const cors = require('cors');
 
+require('dotenv').config();
 app.use(express.json());
 app.use(cors({
     origin:"http://localhost:5173",

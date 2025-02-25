@@ -7,11 +7,13 @@ const userAuth = async (req,res,next) =>{
     if(!token){
         throw new Error("Token not found!");
     }
-    const isTokenValid = await jwt.verify(token,"abcd123nclajwwkkalmxjrwe");
+    const isTokenValid = await jwt.verify(token,process.env.JWT_SECRET);
     if(!isTokenValid){
         throw new Error("Invalid Token!");
     }
     const userId = isTokenValid._id;
+    //console.log(userId);
+    
     const user = await User.findById(userId);
     req.user = user;
     next();
