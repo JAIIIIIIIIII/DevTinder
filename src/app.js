@@ -1,3 +1,5 @@
+const {createServer} = require("http");
+const {Server} = require("socket.io");
 const express= require("express");
 const app = express();
 const cookieParser = require('cookie-parser');
@@ -10,6 +12,8 @@ const profileRouter = require("./routes/profileRoute");
 const connectionRouter = require("./routes/connectionRoute");
 const userRoute = require("./routes/userscreen");
 const cors = require('cors');
+const initialiseSocket = require("./config/socket");
+const chatRouter = require("./routes/chat");
 
 require('dotenv').config();
 app.use(express.json());
@@ -23,10 +27,16 @@ app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",connectionRouter);
 app.use("/",userRoute);
+app.use("/",chatRouter);
+
+const httpServer = createServer(app);
+initialiseSocket(httpServer);
+
+
 dbConnect()
 .then(()=>{
     console.log("Server Connected");
-    app.listen(3000,()=>{
+    httpServer.listen(3000,()=>{
         console.log("server running at 3000");
         
     })
