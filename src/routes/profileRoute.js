@@ -2,6 +2,7 @@ const express = require('express');
 const profileRouter = express.Router();
 const userAuth = require('../middlewares/auth');
 const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
 const validateData = (userData) =>{
     //console.log(userData)   ;
@@ -22,6 +23,20 @@ try{
    }catch(err){
     res.status(400).send("Error: " + err.message);
 
+}})
+
+profileRouter.get("/viewprofile/:id", userAuth , async (req,res) =>{
+    try{
+        const userId = req.params.id;
+        console.log(userId);
+        
+        const user = await User.findOne({_id : userId});
+        if(!user){
+           throw new Error("No user Found");
+        }
+        return res.json({user});
+    }catch(err){
+        res.status(400).send("Error: " + err.message);
 }})
 
 profileRouter.patch("/profile/edit",userAuth, async(req,res)=>{

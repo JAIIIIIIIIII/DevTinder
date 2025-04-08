@@ -6,11 +6,11 @@ const userAuth = require("../middlewares/auth");
 chatRouter.get("/getchat/:id" ,userAuth, async (req,res)=>{
 
     const targetUser = req.params.id;
-    console.log(targetUser);
+    //console.log(targetUser);
     
     
     const user = req.user._id;
-    console.log(user);
+    //console.log(user);
     
 
     

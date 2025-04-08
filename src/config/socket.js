@@ -2,16 +2,26 @@
 const socket = require("socket.io");
 const Chat = require("../models/chat");
 
+let onlineUsers = {};
 const initialiseSocket = (httpServer) =>{
 
 const io = socket(httpServer, { cors : {
     origin:"http://localhost:5173",
 } });
 
+
+
 io.on("connection", (socket) => {
-  
+  console.log("a user connected",socket.id);    
+
+    const userId = socket.handshake.query.userId;
+    onlineUsers[userId] = socket.id;
+    console.log(onlineUsers);
+        
+    io.emit("online-users",Object.keys(onlineUsers));  
     socket.on("joinChat" , ({sender,receiver}) =>{
-        //console.log(userId,id);
+      
+       // console.log(socket.id);
         
         const roomId = [sender,receiver].sort().join("-");
         //console.log(roomId);
@@ -19,10 +29,11 @@ io.on("connection", (socket) => {
         socket.join(roomId);
     });
 
+   
+
     socket.on("sendMessage" ,async ({sender,receiver,message})=>{
         //console.log(sender);
-       
-       
+        console.log("message sent" , socket.id);
         try{
             const roomId = [sender._id,receiver].sort().join("-");
              //console.log(roomId);
@@ -48,9 +59,15 @@ io.on("connection", (socket) => {
 
     });
 
-    socket.on("disconnect" , ()=>{
-
-    })
+    socket.on("disconnect", () => {
+        
+         delete onlineUsers[userId];
+         io.emit("online-users",Object.keys(onlineUsers)); 
+        console.log("user-disconnected");
+        
+    
+      
+      });
 
 
 
@@ -59,4 +76,4 @@ io.on("connection", (socket) => {
 
 }
 
-module.exports = initialiseSocket;
+module.exports = initialiseSocket;  
